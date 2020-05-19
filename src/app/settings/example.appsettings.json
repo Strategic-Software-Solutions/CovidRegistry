@@ -1,10 +1,10 @@
 {
-    "bio_auth_service_uri" : "https://biolinked*********************************************retrivetoken",
-    "covid_registry_api_uri" : "https://bi*****************.net",
-    "auth_uri" : "https://login.microsoftonline.com/e5******************************1e/oauth2/v2.0/token",
-    "username" : "YOUR_USERNAME@bio-linked.org",
-    "password" : "YOUR_PASSWORD",
-    "client_id" : "79a*****-****-****-****-*****1439998",
-    "client_secret" : "Kx0**************************5oX",
-    "scope" : "api://772c**************************da3/PublicAPIAccess"
-  }
+  "bio_auth_service_uri" : "https://biolinked*********************************************retrivetoken",
+  "covid_registry_api_uri" : "https://bi*****************.net",
+  "auth_uri" : "https://login.microsoftonline.com/e5******************************1e/oauth2/v2.0/token",
+  "username" : "YOUR_USERNAME@bio-linked.org",
+  "password" : "YOUR_PASSWORD",
+  "client_id" : "79a*****-****-****-****-*****1439998",
+  "client_secret" : "Kx0**************************5oX",
+  "scope" : "api://772c**************************da3/PublicAPIAccess"
+}
