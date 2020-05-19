@@ -1,0 +1,51 @@
+.error-message {
+  color: #b20000;
+}
+.header {
+  width: 100%;
+  justify-content: center;
+  vertical-align: middle;
+}
+.val-errors {
+  width: 100%;
+  text-align: center;
+}
+.theme-toggle {
+  border-width: 2px;
+  border-style: solid;
+
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-top: auto;
+  margin-bottom: auto;
+  justify-content: right;
+  align-items: flex-end;
+  align-content: flex-end;
+  text-align: right;
+}
+.footer {
+  font-size: small;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+ion-radio {
+  --color-checked:#577e26;
+}
+ion-item {
+  --highlight-color-valid: #577e26;
+  --highlight-color-invalid: #b20000;
+}
+ion-button {
+  --background: #577e26;
+  --color: #ffffff;
+}
+ion-toggle {
+  --background: #ccc;
+  --background-checked: #577e26;
+  --handle-background: #577e26;
+  --handle-background-checked: #ccc;
+}

@@ -1,0 +1,202 @@
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-content>
+      <div *ngIf="!loading">
+        <div *ngIf="logo" style="padding-bottom: 10px;">
+          <img [src]="logo" height="50"/><br/>
+          National COVID-19 Plasm Registry
+        </div>
+        <div *ngIf="!logo" style="padding-bottom: 10px;">
+          <img src="../../assets/BioLinkedWhite.png" height="50" /><br/>
+          National COVID-19 Plasma Registry
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="complete">
+    <ion-item line="none">
+      <ion-icon name="shield-checkmark-outline" slot="start"></ion-icon>
+      <ion-label>Success!!</ion-label>
+    </ion-item>
+    <ion-card-content>
+      You have completed the COVID-19 Convalescent Plasma Registration.  A representative from your local blood center will contact you to schedule a donation.  Thank you!
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="questions.length > 0 && userId && !complete">
+    <ion-item lines="none">
+      <img src="../../assets/covidicon.png" style="padding-right:10px;" height="50"/>
+      <ion-label class="ion-text-wrap" *ngIf="questionIndex === 1">What Date Was Your Test?</ion-label>
+      <ion-label class="ion-text-wrap" *ngIf="questionIndex === 4">What Date Were You Symptom Free?</ion-label>
+      <ion-label class="ion-text-wrap" *ngIf="questionIndex != 1 && questionIndex != 4">{{questions[questionIndex].Value}}</ion-label>
+    </ion-item>
+    <ion-card-content>
+      <div *ngIf="questionIndex != 1 && questionIndex != 4">
+        <div *ngIf="questions[questionIndex].AnswerOptions.length < 10 && !questions[questionIndex].HasMultipleAnswers">
+          <ion-radio-group  [(ngModel)]="questions[questionIndex].Answers[0]">
+            <ion-item lines="none" *ngFor="let option of questions[questionIndex].AnswerOptions">
+              <ion-label>{{option}}</ion-label>
+              <ion-radio mode="ios" slot="start" value="{{option}}"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </div>
+        <div *ngIf="questions[questionIndex].AnswerOptions.length >= 10 && !questions[questionIndex].HasMultipleAnswers">
+          <ion-item>
+            <ion-select mode="ios" placeholder="Select One" [(ngModel)]="questions[questionIndex].Answers[0]">
+              <ion-select-option *ngFor="let option of questions[questionIndex].AnswerOptions" value="{{option}}">{{option}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
+        <div *ngIf="questions[questionIndex].HasMultipleAnswers">
+          <ion-item *ngFor="let option of questions[questionIndex].AnswerOptions; index as i">
+            <ion-label>{{option}} - {{i}}</ion-label>
+            <ion-toggle mode="ios" [(ngModel)]="questions[questionIndex].AnswerBools[i]"></ion-toggle>
+          </ion-item>
+        </div>
+      </div>
+      <div *ngIf="questionIndex === 1">
+        <ion-datetime mode="ios" displayFormat="YYYY-MM-DD" [(ngModel)]="testDate" placeholder="Select Date"></ion-datetime>
+      </div>
+      <div *ngIf="questionIndex === 4">
+        <ion-datetime mode="ios" displayFormat="YYYY-MM-DD" [(ngModel)]="symptomDate" placeholder="Select Date"></ion-datetime>
+      </div>
+      <ion-item lines="none">
+        <ion-button fill="solid" size="default" [disabled]="this.questionIndex === 0" (click)="previous()" slot="start">Previous</ion-button>
+        <ion-button fill="soild" size="default" *ngIf="this.questionIndex + 1 !== this.questions.length" (click)="next()" slot="end">Next</ion-button>
+        <ion-button fill="solid" size="default" *ngIf="this.questionIndex + 1 === this.questions.length" (click)="submitQuestions()" slot="end">Submit</ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <form [formGroup]="regForm">
+    <ion-card *ngIf="!userId">
+      <ion-item lines="none">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-label>Register Account</ion-label>
+      </ion-item>
+      <div class="val-errors">
+        <ng-container>
+          <div class="error-message" *ngIf="regError">{{regErrorMsg}}</div>
+        </ng-container>
+      </div>
+      <ion-card-content>
+        <ng-container *ngFor="let validation of validation_messages.firstName">
+          <div class="error-message" *ngIf="regForm.get('firstName').hasError(validation.type) && (regForm.get('firstName').dirty || regForm.get('firstName').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+        <ion-item>
+          <ion-label position="floating">First Name</ion-label>
+          <ion-input type="text" required="true" formControlName="firstName"></ion-input>
+        </ion-item>
+        <ng-container *ngFor="let validation of validation_messages.lastName">
+          <div class="error-message" *ngIf="regForm.get('lastName').hasError(validation.type) && (regForm.get('lastName').dirty || regForm.get('lastName').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+        <ion-item>
+          <ion-label position="floating">Last Name</ion-label>
+          <ion-input type="text" required="true" formControlName="lastName"></ion-input>
+        </ion-item>
+        <ng-container *ngFor="let validation of validation_messages.email">
+          <div class="error-message" *ngIf="regForm.get('email').hasError(validation.type) && (regForm.get('email').dirty || regForm.get('email').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+        <div class="error-message" *ngIf="emailAvailableToReg == false">
+          The provided email is already registered. 
+        </div>
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="text" required="true" inputmode="email" (focusout)="emailAvailable()" formControlName="email"></ion-input>
+        </ion-item>
+        <ng-container *ngFor="let validation of validation_messages.birthday">
+          <div class="error-message" *ngIf="regForm.get('birthday').hasError(validation.type) && (regForm.get('birthday').dirty || regForm.get('birthday').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+        <ion-item>
+          <ion-label position="floating">Birthday</ion-label>
+          <ion-datetime mode="ios" displayFormat="YYYY-MM-DD" formControlName="birthday" required="true" placeholder="Select Date"></ion-datetime>
+        </ion-item>
+        <ng-container *ngFor="let validation of validation_messages.phone">
+          <div class="error-message" *ngIf="regForm.get('phone').hasError(validation.type) && (regForm.get('phone').dirty || regForm.get('phone').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+        <ion-item>
+          <ion-label position="floating">Phone</ion-label>
+          <ion-input type="number" required="true" formControlName="phone" inputmode="tel" maxlength="10"></ion-input>
+        </ion-item>
+        <ng-container *ngFor="let validation of validation_messages.address">
+          <div class="error-message" *ngIf="regForm.get('address').hasError(validation.type) && (regForm.get('address').dirty || regForm.get('address').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+        <ion-item>
+          <ion-label position="floating">Address</ion-label>
+          <ion-input type="text" required="true" formControlName="address" ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Address Cont.</ion-label>
+          <ion-input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="regModel.Address2" ></ion-input>
+        </ion-item>
+        <ng-container *ngFor="let validation of validation_messages.zip">
+          <div class="error-message" *ngIf="regForm.get('zip').hasError(validation.type) && (regForm.get('zip').dirty || regForm.get('zip').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+        <ion-item>
+          <ion-label position="floating">Zip</ion-label>
+          <ion-input type="number" maxLength="5" inputmode="tel" formControlName="zip" required="true" ></ion-input>
+        </ion-item>
+        <ng-container *ngFor="let validation of validation_messages.username">
+          <div class="error-message" *ngIf="regForm.get('username').hasError(validation.type) && (regForm.get('username').dirty || regForm.get('username').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+        <div class="error-message" *ngIf="userNameAvailable == false">
+          The provided username is taken. 
+        </div>
+        <ion-item>
+          <ion-label position="floating">User Name</ion-label>
+          <ion-input type="text" (focusout)="nameAvailable()" formControlName="username" required="true" ></ion-input>
+        </ion-item>
+        <ng-container *ngFor="let validation of validation_messages.password">
+          <div class="error-message" *ngIf="regForm.get('password').hasError(validation.type) && (regForm.get('password').dirty || regForm.get('password').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input type="password" required="true" formControlName="password"></ion-input>
+        </ion-item>
+        <ng-container>
+          <div class="error-message" *ngIf="regForm.get('confirmPass').hasError('required') && (regForm.get('confirmPass').dirty || regForm.get('confirmPass').touched)">Confirm Password is required.</div>
+          <div class="error-message" *ngIf="regForm.get('confirmPass').hasError('confirmedValidator') && (regForm.get('confirmPass').dirty || regForm.get('confirmPass').touched)">Password and Confirm Password must be match.</div>
+          <div class="error-message" *ngIf="regError">{{regErrorMsg}}</div>
+        </ng-container>
+        <ion-item>
+          <ion-label position="floating">Confirm Password</ion-label>
+          <ion-input  type="password" required="true" formControlName="confirmPass"></ion-input>
+        </ion-item>
+        <ion-item text-center lines="none">
+          <div style="width:100%; text-align:center; padding-top: 10px;">
+            <ion-button fill="solid" size="default"  (click)="register()" [disabled]="!regForm.valid && userNameAvailable && emailAvailableToReg">Register</ion-button>
+          </div>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <div class="footer">
+      <ion-label color="primary">powered by:</ion-label> 
+      <div *ngIf="channelId !== 'covidRegApp'">
+        <a target="_blank" href="https://bio-linked.org/Account/Login/-1/{{channelId}}"><img src="../../assets/BioLinkedWhite.png" width="100" /></a>
+      </div>
+      <div *ngIf="channelId === 'covidRegApp'">
+        <a target="_blank" href="https://bio-linked.org"><img src="../../assets/BioLinkedWhite.png" width="100" /></a>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-footer>
