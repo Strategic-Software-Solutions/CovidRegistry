@@ -2,11 +2,11 @@
   "name": "covid-registry",
   "version": "0.0.1",
   "author": "Oklahoma Blood Institute",
-  "homepage": "https://obi-biodevelopment.visualstudio.com/CovidRegistry/",
+  "homepage": "https://github.com/Strategic-Software-Solutions/CovidRegistry",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
