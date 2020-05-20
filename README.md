@@ -24,17 +24,19 @@ You can utilize our live version, at [covid.bio-linked.org](https://covid.bio-li
 
    **Required:**
  
-   `channel=[integer]`
+   `channel= integer`
 
    *note that links will work without the `channel` property, however registrations will not be linked to your organization.
 
    **Optional:**
 
-   `logo=[https url]`
+   `logo= https URL`
+
+   `name= string`
 
 * **Sample Call:**
 
-`https://covid.bio-linked.org/?logo=https:%2F%2Frequestdonorid.azurewebsites.net%2Fassets%2Fimg%2Fobilogo2.png&channel=1001`
+`https://covid.bio-linked.org/?logo=https:%2F%2Frequestdonorid.azurewebsites.net%2Fassets%2Fimg%2Fobilogo2.png&channel=1001&name=Oklahoma%2FBlood%2FInstitute`
 
 # Host Your Own
 
@@ -63,7 +65,7 @@ Install Node Modules
 
 `npm install`
 
-Copy example.appsettings.json, rename it to appsettings.json, and include the credentials you received from bio-linked. 
+Copy example.appsettings.json, rename it to appsettings.json, and include the credentials you received from Bio-Linked. 
 
 `/src/app/settings/example.appsettings.json`
 
@@ -83,9 +85,9 @@ Angular will bundle your application and place the result in `/www`.
 
 # Bio-Linked API
 
-It is important to note that you will obtain your token from a separate URL than the main Bio-linked API. This is explained in more detail below.
+It is important to note that you will obtain your token from a separate URL than the main Bio-Linked API. This is explained in more detail below.
 
-The bio-linked api endpoint:
+The Bio-Linked api endpoint:
 `https://biolinked.azure-api.net/api`
 
 ## Application Flow
@@ -93,13 +95,13 @@ The bio-linked api endpoint:
 The structure of the API necessitates and application flow of:
 
 - 1. Retrieving an authentication token for the session.
-- 2. Registering the user with bio-linked.
+- 2. Registering the user with Bio-Linked.
 - 3. Retrieving questions for the user.
 - 4. Submitting the users' answers.
 
 ## Authentication
 
-The Bio-linked Question API uses the Microsoft Identity Platform for OAuth2 authentication for outside connections. Microsoft does not allow open CORS requests to their OAuth2 token request. As a result, Single Page Applications like the CovidRegistry cannot request Bearer tokens directly. We created a separate REST API to handle the creation of auth tokens, for our SPA and for you to use. If you choose to create your own solution you can learn more about Microsoft's OAuth2 here:
+The Bio-Linked Question API uses the Microsoft Identity Platform for OAuth2 authentication for outside connections. Microsoft does not allow open CORS requests to their OAuth2 token request. As a result, Single Page Applications like the CovidRegistry cannot request Bearer tokens directly. We created a separate REST API to handle the creation of auth tokens, for our SPA and for you to use. If you choose to create your own solution you can learn more about Microsoft's OAuth2 here:
 
 https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
 
@@ -276,7 +278,7 @@ https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-c
   
 **User Name Available**
 ----
-  Check if a bio-linked user name is available or not.
+  Check if a Bio-Linked user name is available or not.
 
 * **URL**
 
@@ -326,7 +328,7 @@ https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-c
 
 **Register User**
 ----
-  Registers the user with the bio-linked system and returns the new userId.
+  Registers the user with the Bio-Linked system and returns the new userId.
 
 * **URL**
 
@@ -391,7 +393,7 @@ https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-c
 
 **Get Questions**
 ----
-  Get the bio-linked coronavirus questions.
+  Get the Bio-Linked coronavirus questions.
 
 * **URL**
 
@@ -497,6 +499,18 @@ https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-c
        HasMultipleAnswers: false
    ```
 
+   Example of a Question with HasMultipleAnswers set to `true`. <br />
+    ```Id: "cb915e79-fac1-4c78-8cf5-35e9cf891b19"
+       Name: "Underlying Conditions?"
+       Value: "Do you have any of the following underlying medical conditions?"
+       AnswerOptions: ["High Blood Pressure", "Heart Disease", "Blood Clots", "Diabetes", "Cancer Requiring Therapy",…]
+       Answers: [""]
+       AnswerBools: [true, false, false, false, false, ...]
+       HasMultipleAnswers: true
+    ```
+
+  *Note: `Answers[0]` expects a value of `""` and `AnswerBools` expects a length of booleans equal to the length of `AnswerOptions`.
+
 * **Success Response:**
 
   * **Code:** 200 <br />
@@ -526,3 +540,10 @@ https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-c
     console.log(submitResp);
     return submitResp;
   ```
+# Contact Us
+
+Feel free to submit issues to this repository, or contact us at: <br />
+
+covid@bio-linked.org
+
+*Please direct all requests for credentials to our email.
