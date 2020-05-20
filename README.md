@@ -15,6 +15,7 @@ This repository serves as the documentation and provides an example of how to wo
   * [Questions](#Questions)
     + [Get Questions](#Get-Questions)
     + [Submit Answers](#Submit-Answers)
+- [Contact](#Contact-Us)
 
 # Live Version
 
@@ -36,17 +37,21 @@ You can utilize our live version, at [covid.bio-linked.org](https://covid.bio-li
 
 * **Sample Call:**
 
-`https://covid.bio-linked.org/?logo=https:%2F%2Frequestdonorid.azurewebsites.net%2Fassets%2Fimg%2Fobilogo2.png&channel=1001&name=Oklahoma%2FBlood%2FInstitute`
+`https://covid.bio-linked.org/?logo=YOUR_IMG_URL&channel=YOUR_CHANNEL_ID&name=YOUR_ORG_NAME`
 
 # Host Your Own
 
-You can also clone this repository, to customize and host your own version of this.
+You can also clone this repository, to customize and host your own version of this example application.
 
 ## Getting Started
 
 ### Setup
 
-This application uses Angular version 9 and has requirments of `node >= 10.13.0` and `npm >= 6.11.0` or `yarn >= 1.13.0`.
+This application uses Angular version 9 and has requirements of: <br /> 
+`node >= 10.13.0` <br />
+`npm >= 6.11.0` <br /> 
+or <br />
+`yarn >= 1.13.0` <br />
 
 To install the Angular CLI run
 `npm install -g @angular/cli`
@@ -85,14 +90,14 @@ Angular will bundle your application and place the result in `/www`.
 
 # Bio-Linked API
 
-It is important to note that you will obtain your token from a separate URL than the main Bio-Linked API. This is explained in more detail below.
+It is important to note that you will obtain your token from a different URL than the main Bio-Linked API. This is explained in more detail below.
 
-The Bio-Linked api endpoint:
+The Bio-Linked API endpoint:
 `https://biolinked.azure-api.net/api`
 
 ## Application Flow
 
-The structure of the API necessitates and application flow of:
+The structure of the API necessitates and application flow:
 
 - 1. Retrieving an authentication token for the session.
 - 2. Registering the user with Bio-Linked.
@@ -101,7 +106,9 @@ The structure of the API necessitates and application flow of:
 
 ## Authentication
 
-The Bio-Linked Question API uses the Microsoft Identity Platform for OAuth2 authentication for outside connections. Microsoft does not allow open CORS requests to their OAuth2 token request. As a result, Single Page Applications like the CovidRegistry cannot request Bearer tokens directly. We created a separate REST API to handle the creation of auth tokens, for our SPA and for you to use. If you choose to create your own solution you can learn more about Microsoft's OAuth2 here:
+The Bio-Linked Question API uses the Microsoft Identity Platform for OAuth2 authentication for outside connections. Microsoft does not allow open CORS requests to their OAuth2 token request. As a result, Single Page Applications like the CovidRegistry cannot request Bearer tokens directly. For our SPA, we created a separate REST API to handle the creation of auth tokens, which you are free to to use for your own applications. If you choose to use our API, please contact us for your credentials.
+
+If you choose to create your own solution you can learn more about Microsoft's OAuth2 here:
 
 https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
 
@@ -278,7 +285,7 @@ https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-c
   
 **User Name Available**
 ----
-  Check if a Bio-Linked user name is available or not.
+  Check if a Bio-Linked username is available or not.
 
 * **URL**
 
@@ -393,7 +400,7 @@ https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-c
 
 **Get Questions**
 ----
-  Get the Bio-Linked coronavirus questions.
+  Get the Bio-Linked COVID questions.
 
 * **URL**
 
@@ -409,9 +416,9 @@ https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-c
   
 *  **URL Params**
 
-  **Required:**
+    **Required:**
 
-   `userId=integer`
+    `userId=integer`
 
 * **Data Params**
 
