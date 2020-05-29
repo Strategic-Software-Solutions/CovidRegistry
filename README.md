@@ -34,6 +34,11 @@ You can utilize our live version, at [covid.bio-linked.org](https://covid.bio-li
    `logo= https URL`
 
    `name= string`
+   
+   `darkTheme= boolean` <br /> 
+   `true` Force Dark Theme <br />
+   `false` Force Light Theme <br />
+   By default, the site will respect the user's device theme. If darkTheme is included the site will force a light or dark mode theme.
 
 * **Sample Call:**
 
