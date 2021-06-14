@@ -1,5 +1,7 @@
 This repository serves as the documentation and provides an example of how to work with the Bio-Linked coronavirus question API utilizing an Ionic/Angular Web Application. 
 
+**This application is no longer live or supported, the following represents a early version of the application.**
+
 # Table of Contents
 - [Live Version](#Live-Version)
 - [Host Your Own](#Host-Your-Own)
